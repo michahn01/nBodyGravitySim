@@ -1,0 +1,5 @@
+mass, w, h, p_x, p_y, v_x, v_y, a_x, a_y, texture_ID
+0.5, 5, 5, 950, 350, 0, 0.1, 0, 0, white_mass
+0.5, 5, 5, 850, 350, 0.1, 0, 0, 0, white_mass
+0.5, 5, 5, 950, 450, -0.1, 0, 0, 0, white_mass
+0.5, 5, 5, 850, 450, 0, -0.1, 0, 0, white_mass
