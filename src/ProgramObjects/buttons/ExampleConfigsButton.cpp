@@ -26,10 +26,14 @@ void ExampleConfigsButton::draw() {
 void ExampleConfigsButton::update() {
     Vector2D pMousePos = input_handler->getMousePosition();
     if (dropped_down) {
-        if (!(pMousePos.getX() < (pos.getX() + 2*width)
+        if (!((pMousePos.getX() < (pos.getX() + width)
             && pMousePos.getX() > pos.getX()
             && pMousePos.getY() < (pos.getY() + drop_downs.size() * 35 + height)
-            && pMousePos.getY() > pos.getY()) &&
+            && pMousePos.getY() > pos.getY()) ||
+            (pMousePos.getX() < (pos.getX() + 2*width)
+            && pMousePos.getX() > pos.getX()
+            && pMousePos.getY() < (pos.getY() + height)
+            && pMousePos.getY() > pos.getY())) &&
             Button::input_handler->getMouseButtonState(LEFT)) {
                 current_frame = MOUSE_OUT;
                 dropped_down = false;
