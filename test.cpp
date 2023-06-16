@@ -190,6 +190,7 @@ void mainloop (void *arg) {
     handleEvents(util);
     update(util);
     render(util);
+    std::cout << util->state << std::endl;
 }
 
 
@@ -205,12 +206,12 @@ int main() {
         }
         else {
             std::cout << "renderer init fail\n";
-            return false; // renderer init fail
+            return 1; // renderer init fail
         }
     }
     else {
         std::cout << "window init fail\n";
-        return false; // window init fail
+        return 1; // window init fail
     }
     TextureHandler th; 
     int state = CONFIG;
@@ -227,7 +228,7 @@ int main() {
     Mass::set_utilities(util.renderer, util.texture_handler, util.input_handler);
     Button::set_utilities(util.renderer, util.texture_handler, util.input_handler, util.mass_configurer);
 
-    if (!loadAllTextures(&util)) return false;
+    if (!loadAllTextures(&util)) return 1;
     config_buttons.push_back(new StateChanger(200, 0, 200, 50, "start_simulation_button", 1));
     config_buttons.push_back(new ExampleConfigsButton(0, 0, 200, 50, "example_configs_buttons"));
     run_buttons.push_back(new StateChanger(0, 0, 67, 50, "pause_button", 2));

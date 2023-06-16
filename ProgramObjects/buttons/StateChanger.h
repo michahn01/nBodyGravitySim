@@ -10,9 +10,11 @@ public:
         change_state = state;
     }
     virtual void clickBehavior() override {
-        if (change_state == 0) Button::mass_configurer->clear_current_config();
+        if (change_state == 0) {
+            Button::mass_configurer->clear_current_config();
+            Button::texture_handler->resetCamera();
+        }
         Button::input_handler->changeState(change_state);
-        Button::texture_handler->resetCamera();
     }
 
     virtual void draw() override {
@@ -20,6 +22,13 @@ public:
             Button::draw();
         }
     }
+
+    virtual void update() override {
+        if (Button::mass_configurer->masses_size) {
+            Button::update();
+        }
+    }
+
 private:
     int change_state;
 };

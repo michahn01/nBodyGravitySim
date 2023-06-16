@@ -25,42 +25,80 @@ void ExampleConfigsButton::draw() {
 }
 void ExampleConfigsButton::update() {
     Vector2D pMousePos = input_handler->getMousePosition();
-    if (Button::input_handler->getState() == 1) {
-        current_frame = MOUSE_OUT;
-        dropped_down = false;
-    }
-    else if (dropped_down && 
-        !(pMousePos.getX() < (pos.getX() + 2*width)
-        && pMousePos.getX() > pos.getX()
-        && pMousePos.getY() < (pos.getY() + height + drop_downs.size() * 35)
-        && pMousePos.getY() > pos.getY()) &&
-        Button::input_handler->getMouseButtonState(LEFT)) {
-            current_frame = MOUSE_OUT;
-            dropped_down = false;
-    }
-    else if (current_frame == CLICKED) {
-        if (!Button::input_handler->getMouseButtonState(LEFT)) {
+    if (dropped_down) {
+        if (!(pMousePos.getX() < (pos.getX() + 2*width)
+            && pMousePos.getX() > pos.getX()
+            && pMousePos.getY() < (pos.getY() + drop_downs.size() * 35 + height)
+            && pMousePos.getY() > pos.getY()) &&
+            Button::input_handler->getMouseButtonState(LEFT)) {
+                current_frame = MOUSE_OUT;
+                dropped_down = false;
+            }
+        else {
+            current_frame = CLICKED;
             dropped_down = true;
         }
     }
+    else if (pMousePos.getX() < (pos.getX() + width)
+             && pMousePos.getX() > pos.getX()
+             && pMousePos.getY() < (pos.getY() + height)
+             && pMousePos.getY() > pos.getY()) {
+                if (current_frame == CLICKED && !Button::input_handler->getMouseButtonState(LEFT)) {
+                    current_frame = CLICKED;
+                    dropped_down = true;
+                }
+                else if (Button::input_handler->getMouseButtonState(LEFT)) {
+                    current_frame = CLICKED;
+                    dropped_down = false;
+                }
+                else {
+                    current_frame = MOUSE_OVER;
+                    dropped_down = false;
+                }
+             }
     else {
-        if (pMousePos.getX() < (pos.getX() + width)
-            && pMousePos.getX() > pos.getX()
-            && pMousePos.getY() < (pos.getY() + height)
-            && pMousePos.getY() > pos.getY()) {
-            if (Button::input_handler->getMouseButtonState(LEFT)) {
-                current_frame = CLICKED;
-            }
-            else {
-                current_frame = MOUSE_OVER;
-                dropped_down = false;
-            }
-        }
-        else {
-            current_frame = MOUSE_OUT;
-            dropped_down = false;
-        }
+        current_frame = MOUSE_OUT;
+        dropped_down = false;
     }
+
+
+
+    // if (Button::input_handler->getState() == 1) {
+    //     current_frame = MOUSE_OUT;
+    //     dropped_down = false;
+    // }
+    // else if (dropped_down && 
+    //     !(pMousePos.getX() < (pos.getX() + 2*width)
+    //     && pMousePos.getX() > pos.getX()
+    //     && pMousePos.getY() < (pos.getY() + height + drop_downs.size() * 35)
+    //     && pMousePos.getY() > pos.getY()) &&
+    //     Button::input_handler->getMouseButtonState(LEFT)) {
+    //         current_frame = MOUSE_OUT;
+    //         dropped_down = false;
+    // }
+    // else if (current_frame == CLICKED) {
+    //     if (!Button::input_handler->getMouseButtonState(LEFT)) {
+    //         dropped_down = true;
+    //     }
+    // }
+    // else {
+    //     if (pMousePos.getX() < (pos.getX() + width)
+    //         && pMousePos.getX() > pos.getX()
+    //         && pMousePos.getY() < (pos.getY() + height)
+    //         && pMousePos.getY() > pos.getY()) {
+    //         if (Button::input_handler->getMouseButtonState(LEFT)) {
+    //             current_frame = CLICKED;
+    //         }
+    //         else {
+    //             current_frame = MOUSE_OVER;
+    //             dropped_down = false;
+    //         }
+    //     }
+    //     else {
+    //         current_frame = MOUSE_OUT;
+    //         dropped_down = false;
+    //     }
+    // }
 
     if (dropped_down) {
         for (int i = 0; i < drop_downs.size(); ++i) {

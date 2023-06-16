@@ -20,9 +20,9 @@ protected:
 public:
     ExampleConfigsButton(int x, int y, int w, int h, std::string ID);
     ~ExampleConfigsButton();
-    virtual void draw();
-    virtual void update();
-    virtual void clean();
+    virtual void draw() override;
+    virtual void update() override;
+    virtual void clean() override;
     bool dropped_down = false;
 };
 

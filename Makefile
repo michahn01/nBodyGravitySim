@@ -19,3 +19,6 @@ build_web_assembly:
 
 run_web_assembly:
 	emrun output.html
+
+run:
+	emrun index.html
