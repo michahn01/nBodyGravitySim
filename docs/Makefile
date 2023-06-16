@@ -22,3 +22,21 @@ run_web_assembly:
 
 run:
 	emrun index.html
+
+emcc -o output.html \
+	../src/simulation.cpp ../src/utility/InputHandler.cpp \
+	../src/utility/TextureHandler.cpp ../src/utility/QuadTree.cpp \
+	../src/ProgramObjects/Mass.cpp ../src/ProgramObjects/buttons/ExampleConfigsButton.cpp \
+	../src/ProgramObjects/buttons/DropDown.cpp ../src/ProgramObjects/buttons/Button.cpp \
+	-sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -pthread --use-preload-plugins \
+	--preload-file ../resources/textures/euler_3_body.png@. \
+	--preload-file ../resources/textures/example_configs_buttons.png@. \
+	--preload-file ../resources/textures/pause_button.png@. \
+	--preload-file ../resources/textures/reset_button.png@. \
+	--preload-file ../resources/textures/resume_button.png@. \
+	--preload-file ../resources/textures/start_simulation_button.png@. \
+	--preload-file ../resources/textures/unstable_3_body.png@. \
+	--preload-file ../resources/textures/white_mass.png@. \
+	--preload-file ../resources/mass_configurations/euler_3_body.csv@. \
+	--preload-file ../resources/mass_configurations/sample_four_body.csv@. \
+	--preload-file ../resources/mass_configurations/unstable_3_body.csv@.
