@@ -25,44 +25,53 @@ void ExampleConfigsButton::draw() {
 }
 void ExampleConfigsButton::update() {
     Vector2D pMousePos = input_handler->getMousePosition();
+    if (input_handler->getState() != 0) {
+        current_frame = MOUSE_OUT;
+        dropped_down = false;
+    }
     if (dropped_down) {
-        if (!((pMousePos.getX() < (pos.getX() + width)
-            && pMousePos.getX() > pos.getX()
-            && pMousePos.getY() < (pos.getY() + drop_downs.size() * 35 + height)
-            && pMousePos.getY() > pos.getY()) ||
-            (pMousePos.getX() < (pos.getX() + 2*width)
-            && pMousePos.getX() > pos.getX()
-            && pMousePos.getY() < (pos.getY() + height)
-            && pMousePos.getY() > pos.getY())) &&
-            Button::input_handler->getMouseButtonState(LEFT)) {
-                current_frame = MOUSE_OUT;
+        if (current_frame == CLICKED_DROPPED) {
+            if (!Button::input_handler->getMouseButtonState(LEFT)) {
+                current_frame = MOUSE_OVER;
                 dropped_down = false;
             }
+        }
+        else if (pMousePos.getX() < (pos.getX() + width)
+                 && pMousePos.getX() > pos.getX()
+                 && pMousePos.getY() < (pos.getY() + height)
+                 && pMousePos.getY() > pos.getY()) {
+                if (Button::input_handler->getMouseButtonState(LEFT)) {
+                    current_frame = CLICKED_DROPPED;
+                }
+                else {
+                    current_frame = MOUSE_OVER_DROPPED;
+                }
+            }
         else {
-            current_frame = CLICKED;
-            dropped_down = true;
+            current_frame = MOUSE_OUT_DROPPED;
         }
     }
-    else if (pMousePos.getX() < (pos.getX() + width)
-             && pMousePos.getX() > pos.getX()
-             && pMousePos.getY() < (pos.getY() + height)
-             && pMousePos.getY() > pos.getY()) {
-                if (current_frame == CLICKED && !Button::input_handler->getMouseButtonState(LEFT)) {
+    else {
+        if (current_frame == CLICKED) {
+            if (!Button::input_handler->getMouseButtonState(LEFT)) {
+                current_frame = MOUSE_OVER_DROPPED;
+                dropped_down = true;
+            }
+        }
+        else if (pMousePos.getX() < (pos.getX() + width)
+                 && pMousePos.getX() > pos.getX()
+                 && pMousePos.getY() < (pos.getY() + height)
+                 && pMousePos.getY() > pos.getY()) {
+                if (Button::input_handler->getMouseButtonState(LEFT)) {
                     current_frame = CLICKED;
-                    dropped_down = true;
-                }
-                else if (Button::input_handler->getMouseButtonState(LEFT)) {
-                    current_frame = CLICKED;
-                    dropped_down = false;
                 }
                 else {
                     current_frame = MOUSE_OVER;
-                    dropped_down = false;
                 }
-             }
-    else {
-        current_frame = MOUSE_OUT;
-        dropped_down = false;
+            }
+        else {
+            current_frame = MOUSE_OUT;
+        }
     }
 
 

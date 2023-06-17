@@ -12,7 +12,10 @@ protected:
     enum button_state {
         MOUSE_OUT = 0,
         MOUSE_OVER = 1,
-        CLICKED = 2
+        CLICKED = 2,
+        MOUSE_OUT_DROPPED = 3,
+        MOUSE_OVER_DROPPED = 4,
+        CLICKED_DROPPED = 5
     };
     MassConfigurer* mass_configurer;
     virtual void clickBehavior() override;
