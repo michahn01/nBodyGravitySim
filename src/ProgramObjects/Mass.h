@@ -15,7 +15,7 @@ public:
     virtual void draw();
     virtual void update(int dT);
     virtual void clean();
-    Mass();
+    Mass() { }
     Mass(float ms, float w, float h, 
          float p_x, float p_y, 
          float v_x, float v_y,
@@ -24,8 +24,6 @@ public:
          mass(ms), width(w), height(h), 
          pos(p_x, p_y), vel(v_x, v_y), acc(a_x, a_y),
          texture_ID(textureID) { }
-    virtual ~Mass() {
-    }
     static void set_utilities(SDL_Renderer* r, TextureHandler* t, InputHandler* i);
     static SDL_Renderer* renderer;
     static TextureHandler* texture_handler;

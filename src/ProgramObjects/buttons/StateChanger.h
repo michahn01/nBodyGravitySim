@@ -11,20 +11,20 @@ public:
     }
     virtual void clickBehavior() override {
         if (change_state == 0) {
-            Button::mass_configurer->clear_current_config();
-            Button::texture_handler->resetCamera();
+            Object::mass_configurer->clear_current_config();
+            Object::texture_handler->resetCamera();
         }
-        Button::input_handler->changeState(change_state);
+        Object::input_handler->changeState(change_state);
     }
 
     virtual void draw() override {
-        if (Button::mass_configurer->masses_size) {
+        if (Object::mass_configurer->masses_size) {
             Button::draw();
         }
     }
 
     virtual void update() override {
-        if (Button::mass_configurer->masses_size) {
+        if (Object::mass_configurer->masses_size) {
             Button::update();
         }
     }

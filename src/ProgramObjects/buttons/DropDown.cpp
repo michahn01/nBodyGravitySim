@@ -18,7 +18,7 @@ void DropDown::clean() {
 }
 
 void DropDown::clickBehavior() {
-    Button::mass_configurer->load_configuration(config_file);
+    Object::mass_configurer->load_configuration(config_file);
 }
 
 void DropDown::setConfigFile(std::string file_name) {

@@ -15,4 +15,10 @@ public:
     std::string config_file;
 };
 
+class NoninteractiveDropDown : public DropDown {
+public:
+    NoninteractiveDropDown(int x, int y, int w, int h, std::string ID) : DropDown(x, y, w, h, ID) {}
+    virtual void update() override { }
+};
+
 #endif

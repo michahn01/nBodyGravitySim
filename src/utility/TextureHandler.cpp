@@ -96,3 +96,26 @@ void TextureHandler::clearFromTextureMap(std::string id)
 {
  textures_inventory.erase(id);
 }
+
+void TextureHandler::drawPlacement(std::string id, 
+                          int dest_x, int dest_y, 
+                          int dest_width, int dest_height, 
+                          int src_x, int src_y, 
+                          int src_width, int src_height,
+                          SDL_Renderer* renderer, 
+                          SDL_RendererFlip flip) {
+    SDL_Rect dest_rect;
+    dest_rect.w = dest_width * zoom_factor;
+    dest_rect.h = dest_height * zoom_factor;
+    dest_rect.x = dest_x;
+    dest_rect.y = dest_y;
+
+    SDL_Rect src_rect;
+    src_rect.w = src_width;
+    src_rect.h = src_height;
+    src_rect.x = src_x;
+    src_rect.y = src_y;
+
+    SDL_RenderCopyEx(renderer, textures_inventory[id], &src_rect,
+    &dest_rect, 0, 0, flip);
+}

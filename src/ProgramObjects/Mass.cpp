@@ -1,6 +1,5 @@
 #include "Mass.h"
 
-Mass::Mass() {}
 void Mass::draw() {
     texture_handler->drawZoom(texture_ID, pos.getX(), pos.getY(), width, height, 0, 0, 100, 100, renderer);
 }

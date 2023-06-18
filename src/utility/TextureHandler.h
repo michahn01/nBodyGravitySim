@@ -42,6 +42,15 @@ public:
               SDL_Renderer* renderer, 
               SDL_RendererFlip flip = SDL_FLIP_NONE);
 
+    // special draw for rendering temporary "placement" masses
+    void drawPlacement(std::string id, 
+              int dest_x, int dest_y, 
+              int dest_width, int dest_height, 
+              int src_x, int src_y, 
+              int src_width, int src_height,
+              SDL_Renderer* renderer, 
+              SDL_RendererFlip flip = SDL_FLIP_NONE);
+
     ~TextureHandler() {
         std::cout << "TextureHandler dtor run" << std::endl;
     }
@@ -83,6 +92,19 @@ public:
         zoom_factor = 1.0f;
         x_shift = -450;
         y_shift = 300;
+    }
+
+    float getAbsolutePosX(float camera_x) {
+        return (camera_x + x_shift) / zoom_factor;
+    }
+    float getAbsolutePosY(float camera_y) {
+        return (camera_y - y_shift) / zoom_factor;
+    }
+    float getCameraPosX(float absolute_x) {
+        return absolute_x * zoom_factor - x_shift;
+    }
+    float getCameraPosY(float absolute_y) {
+        return absolute_y * zoom_factor + y_shift;
     }
 
 

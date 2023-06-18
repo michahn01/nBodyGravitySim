@@ -1,13 +1,14 @@
-#ifndef ExampleConfigsButton_h
-#define ExampleConfigsButton_h
+#ifndef DropDownButton_h
+#define DropDownButton_h
 
 #include "Button.h"
 #include "DropDown.h"
 #include "../../utility/MassConfigurer.h"
 #include <vector>
-class ExampleConfigsButton : public Button {
+class DropDownButton : public Button {
 private:
     std::vector<DropDown*> drop_downs;
+    int old_state = 0;
 protected:
     enum button_state {
         MOUSE_OUT = 0,
@@ -21,12 +22,19 @@ protected:
     virtual void clickBehavior() override;
 
 public:
-    ExampleConfigsButton(int x, int y, int w, int h, std::string ID);
-    ~ExampleConfigsButton();
+    DropDownButton(int x, int y, int w, int h, std::string ID, bool& dropped);
+    ~DropDownButton();
     virtual void draw() override;
     virtual void update() override;
     virtual void clean() override;
-    bool dropped_down = false;
+    bool& dropped_down;
+    void addConfigDropDown(DropDown* button, std::string config_file) {
+        drop_downs.push_back(button);
+        drop_downs.back()->setConfigFile(config_file);
+    }
+    void addDropDown(DropDown* button) {
+        drop_downs.push_back(button);
+    }
 };
 
 #endif

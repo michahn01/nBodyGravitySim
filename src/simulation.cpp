@@ -6,9 +6,11 @@
 #include "utility/InputHandler.h"
 #include "utility/MassConfigurer.h"
 #include "utility/QuadTree.h"
-#include "ProgramObjects/buttons/ExampleConfigsButton.h"
+#include "ProgramObjects/buttons/DropDownButton.h"
 #include "ProgramObjects/Mass.h"
 #include "ProgramObjects/buttons/StateChanger.h"
+#include "ProgramObjects/MassPlacer.h"
+#include "ProgramObjects/buttons/MassPlaceDropDown.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -27,9 +29,9 @@ public:
               InputHandler* input_handler,
               MassConfigurer* mass_configurer,
               SDL_Window* window,
-              std::vector<Button*>& config_buttons,
-              std::vector<Button*>& run_buttons,
-              std::vector<Button*>& pause_buttons,
+              std::vector<Object*>& config_buttons,
+              std::vector<Object*>& run_buttons,
+              std::vector<Object*>& pause_buttons,
               std::vector<Mass*>& masses,
               int &state, Uint32& curr_time, Uint32& prev_time) : 
               renderer(renderer), texture_handler(texture_handler), input_handler(input_handler),
@@ -41,9 +43,9 @@ public:
     InputHandler* input_handler;
     MassConfigurer* mass_configurer;
     SDL_Window* window;
-    std::vector<Button*>& config_buttons;
-    std::vector<Button*>& run_buttons;
-    std::vector<Button*>& pause_buttons;
+    std::vector<Object*>& config_buttons;
+    std::vector<Object*>& run_buttons;
+    std::vector<Object*>& pause_buttons;
     std::vector<Mass*>& masses;
     int &state;
     bool is_running = false;
@@ -55,7 +57,7 @@ void update(Utilities* util) {
     switch (util->state) {
         case CONFIG:
             {
-            std::vector<Button*>& config_buttons = util->config_buttons;
+            std::vector<Object*>& config_buttons = util->config_buttons;
             for (int i = 0; i < config_buttons.size(); ++i) {
                 config_buttons[i]->update();
             }
@@ -64,7 +66,7 @@ void update(Utilities* util) {
             }
         case RUNNING:
             {
-            std::vector<Button*>& run_buttons = util->run_buttons;
+            std::vector<Object*>& run_buttons = util->run_buttons;
             std::vector<Mass*>& masses = util->masses;
             for (int i = 0; i < run_buttons.size(); ++i) {
                 run_buttons[i]->update();
@@ -88,7 +90,7 @@ void update(Utilities* util) {
             }
         case PAUSED:
             {
-            std::vector<Button*>& pause_buttons = util->pause_buttons;
+            std::vector<Object*>& pause_buttons = util->pause_buttons;
             for (int i = 0; i < pause_buttons.size(); ++i) {
                 pause_buttons[i]->update();
             }
@@ -120,7 +122,7 @@ void render(Utilities* util) {
     switch (util->state) {
         case CONFIG:
             {
-            std::vector<Button*>& config_buttons = util->config_buttons;
+            std::vector<Object*>& config_buttons = util->config_buttons;
             std::vector<Mass*>& masses = util->masses;
             for (int i = 0; i < config_buttons.size(); ++i) {
                 config_buttons[i]->draw();
@@ -132,7 +134,7 @@ void render(Utilities* util) {
             }
         case RUNNING:
             {
-            std::vector<Button*>& run_buttons = util->run_buttons;
+            std::vector<Object*>& run_buttons = util->run_buttons;
             std::vector<Mass*>& masses = util->masses;
             for (int i = 0; i < run_buttons.size(); ++i) {
                 run_buttons[i]->draw();
@@ -144,7 +146,7 @@ void render(Utilities* util) {
             }
         case PAUSED:
             {
-            std::vector<Button*>& pause_buttons = util->pause_buttons;
+            std::vector<Object*>& pause_buttons = util->pause_buttons;
             std::vector<Mass*>& masses = util->masses;
             for (int i = 0; i < pause_buttons.size(); ++i) {
                 pause_buttons[i]->draw();
@@ -181,7 +183,34 @@ bool loadAllTextures(Utilities* util) {
     }     
     if (!util->texture_handler->load("resources/textures/resume_button.png", "resume_button", util->renderer)) {
         return false;
-    }            
+    }      
+    if (!util->texture_handler->load("resources/textures/spawn_particles_buttons.png", "spawn_particles_buttons", util->renderer)) {
+        return false;
+    }       
+    if (!util->texture_handler->load("resources/textures/mass_placer.png", "mass_placer_settings", util->renderer)) {
+        return false;
+    }    
+    if (!util->texture_handler->load("resources/textures/mass_count_1.png", "mass_count_1", util->renderer)) {
+        return false;
+    }      
+    if (!util->texture_handler->load("resources/textures/mass_count_10.png", "mass_count_10", util->renderer)) {
+        return false;
+    }     
+    if (!util->texture_handler->load("resources/textures/weight_normal.png", "weight_normal", util->renderer)) {
+        return false;
+    }      
+    if (!util->texture_handler->load("resources/textures/weight_light.png", "weight_light", util->renderer)) {
+        return false;
+    }      
+    if (!util->texture_handler->load("resources/textures/weight_heavy.png", "weight_heavy", util->renderer)) {
+        return false;
+    }      
+    if (!util->texture_handler->load("resources/textures/place_particles.png", "place_particles", util->renderer)) {
+        return false;
+    }    
+    if (!util->texture_handler->load("resources/textures/green_mass.png", "green_mass", util->renderer)) {
+        return false;
+    }      
     return true;
 }
 
@@ -216,9 +245,9 @@ int main() {
     TextureHandler th; 
     int state = CONFIG;
     InputHandler ih(state);
-    std::vector<Button*> config_buttons;
-    std::vector<Button*> run_buttons;
-    std::vector<Button*> pause_buttons;
+    std::vector<Object*> config_buttons;
+    std::vector<Object*> run_buttons;
+    std::vector<Object*> pause_buttons;
     std::vector<Mass*> masses;
     MassConfigurer mc(masses, renderer, &th, &ih); 
     Uint32 curr_time = 0; Uint32 prev_time = 0;
@@ -226,15 +255,39 @@ int main() {
 
 
     Mass::set_utilities(util.renderer, util.texture_handler, util.input_handler);
-    Button::set_utilities(util.renderer, util.texture_handler, util.input_handler, util.mass_configurer);
+    Object::set_utilities(util.renderer, util.texture_handler, util.input_handler, util.mass_configurer);
+
+
+    MassPlacer* mass_placer = new MassPlacer(); 
+    config_buttons.push_back(mass_placer); run_buttons.push_back(mass_placer); pause_buttons.push_back(mass_placer);
 
     if (!loadAllTextures(&util)) return 1;
-    config_buttons.push_back(new StateChanger(200, 0, 200, 50, "start_simulation_button", 1));
-    config_buttons.push_back(new ExampleConfigsButton(0, 0, 200, 50, "example_configs_buttons"));
-    run_buttons.push_back(new StateChanger(0, 0, 67, 50, "pause_button", 2));
-    run_buttons.push_back(new StateChanger(67, 0, 67, 50, "reset_button", 0));
-    pause_buttons.push_back(new StateChanger(67, 0, 67, 50, "reset_button", 0));
-    pause_buttons.push_back(new StateChanger(0, 0, 67, 50, "resume_button", 1));
+    config_buttons.push_back(new StateChanger(400, 0, 200, 50, "start_simulation_button", 1));
+
+
+    DropDownButton* spawn_particles_button = 
+    new DropDownButton(200, 0, 200, 50, "spawn_particles_buttons", mass_placer->spawn_particle_button_dropped);
+    spawn_particles_button->addDropDown(new NoninteractiveDropDown(200, 50, 200, 140, "mass_placer_settings"));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(230, 85, 60, 35, "mass_count_1", 1, mass_placer->num_particles, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(310, 85, 60, 35, "mass_count_10", 10, mass_placer->num_particles, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(201, 155, 66, 35, "weight_light", 0.3, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(267, 155, 66, 35, "weight_normal", 1, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(333, 155, 66, 35, "weight_heavy", 10, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new PlaceParticles(200, 195, 200, 35, "place_particles", mass_placer));
+    config_buttons.push_back(spawn_particles_button); 
+    run_buttons.push_back(spawn_particles_button); 
+    pause_buttons.push_back(spawn_particles_button);
+
+    DropDownButton* example_configs_button = new DropDownButton(0, 0, 200, 50, "example_configs_buttons", mass_placer->example_configs_button_dropped);
+    example_configs_button->addConfigDropDown(new DropDown(0, 50, 200, 35, "euler_3_body"), "resources/mass_configurations/euler_3_body.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 85, 200, 35, "unstable_3_body"), "resources/mass_configurations/unstable_3_body.csv");
+    config_buttons.push_back(example_configs_button);
+
+    run_buttons.push_back(new StateChanger(0, 0, 100, 50, "pause_button", 2));
+    run_buttons.push_back(new StateChanger(100, 0, 100, 50, "reset_button", 0));
+    pause_buttons.push_back(new StateChanger(100, 0, 100, 50, "reset_button", 0));
+    pause_buttons.push_back(new StateChanger(0, 0, 100, 50, "resume_button", 1));
+
 
     // following error is harmless
     emscripten_set_main_loop_arg(mainloop, &util, -1, 1);
