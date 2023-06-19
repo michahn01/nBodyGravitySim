@@ -8,7 +8,7 @@ id, SDL_Renderer* renderer) {
     if (temp_surface == 0) {
         return false;
     }
-    std::cout << "load successful" << std::endl;
+    std::cout << "load successful " << fileName << std::endl;
     SDL_Texture* texture =
     SDL_CreateTextureFromSurface(renderer, temp_surface);
     SDL_FreeSurface(temp_surface);

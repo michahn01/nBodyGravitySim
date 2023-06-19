@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include "csv.h"
 #include <vector>
+#include "ForceComputer.h"
 
 class MassConfigurer {
 public:

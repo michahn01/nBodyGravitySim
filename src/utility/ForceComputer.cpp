@@ -1,8 +1,8 @@
-#include "QuadTree.h"
+#include "ForceComputer.h"
 #include <cmath>
 #include <algorithm>
 
-void QuadTree::update() {
+void ForceComputer::update() {
     for (int i = 0; i < masses.size(); ++i) {
         Vector2D net_force(0, 0);
         Mass* m1 = masses[i]; 
@@ -26,4 +26,19 @@ void QuadTree::update() {
         net_force /= m1->getMass();
         m1->getAccRef() = net_force;
     }
+}
+
+void ForceComputer::updateWithBarnesHut() {
+    quad_tree = new Quadrant(root_width, 0, 0, 0, 0, 0);
+    for (int i = 0; i < masses.size(); ++i) {
+        quad_tree->insert_mass(masses[i], 0);
+    }   
+    for (int i = 0; i < masses.size(); ++i) {
+        Vector2D net_force(0, 0);
+        quad_tree->addForceToBody(masses[i], net_force);   
+        net_force /= masses[i]->getMass();
+        masses[i]->getAccRef() = net_force;   
+    }
+    cleanAllNodes(quad_tree);
+
 }

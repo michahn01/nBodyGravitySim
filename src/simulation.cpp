@@ -5,7 +5,7 @@
 #include "utility/TextureHandler.h"
 #include "utility/InputHandler.h"
 #include "utility/MassConfigurer.h"
-#include "utility/QuadTree.h"
+#include "utility/ForceComputer.h"
 #include "ProgramObjects/buttons/DropDownButton.h"
 #include "ProgramObjects/Mass.h"
 #include "ProgramObjects/buttons/StateChanger.h"
@@ -71,18 +71,23 @@ void update(Utilities* util) {
             for (int i = 0; i < run_buttons.size(); ++i) {
                 run_buttons[i]->update();
             }
-            QuadTree quad_tree(masses);
-
             util->curr_time = SDL_GetTicks();
             int j = (util->curr_time - util->prev_time) / 5;
             util->prev_time = util->curr_time;
             for (int i = 0; i < j; ++i) {
+                ForceComputer force_computer(masses);
                 for (int i = 0; i < masses.size(); ++i) {
                     masses[i]->leapFrog1(5);
                 }
-                quad_tree.update();
+                force_computer.updateWithBarnesHut();
                 for (int i = 0; i < masses.size(); ++i) {
                     masses[i]->leapFrog2(5);
+                    if (masses[i]->getPos().getX() > force_computer.root_width) {
+                        force_computer.root_width = masses[i]->getPos().getX() * 2;
+                    }
+                    if (masses[i]->getPos().getY() > force_computer.root_width) {
+                        force_computer.root_width = masses[i]->getPos().getY() * 2;
+                    }
                 }
             }
 
@@ -124,11 +129,11 @@ void render(Utilities* util) {
             {
             std::vector<Object*>& config_buttons = util->config_buttons;
             std::vector<Mass*>& masses = util->masses;
-            for (int i = 0; i < config_buttons.size(); ++i) {
-                config_buttons[i]->draw();
-            }
             for (int i = 0; i < masses.size(); ++i) {
                 masses[i]->draw();
+            }
+            for (int i = 0; i < config_buttons.size(); ++i) {
+                config_buttons[i]->draw();
             }
             break;
             }
@@ -136,11 +141,11 @@ void render(Utilities* util) {
             {
             std::vector<Object*>& run_buttons = util->run_buttons;
             std::vector<Mass*>& masses = util->masses;
-            for (int i = 0; i < run_buttons.size(); ++i) {
-                run_buttons[i]->draw();
-            }
             for (int i = 0; i < masses.size(); ++i) {
                 masses[i]->draw();
+            }
+            for (int i = 0; i < run_buttons.size(); ++i) {
+                run_buttons[i]->draw();
             }
             break;
             }
@@ -148,11 +153,11 @@ void render(Utilities* util) {
             {
             std::vector<Object*>& pause_buttons = util->pause_buttons;
             std::vector<Mass*>& masses = util->masses;
-            for (int i = 0; i < pause_buttons.size(); ++i) {
-                pause_buttons[i]->draw();
-            }
             for (int i = 0; i < masses.size(); ++i) {
                 masses[i]->draw();
+            }
+            for (int i = 0; i < pause_buttons.size(); ++i) {
+                pause_buttons[i]->draw();
             }
             }
     }
@@ -219,12 +224,11 @@ void mainloop (void *arg) {
     handleEvents(util);
     update(util);
     render(util);
-    std::cout << util->state << std::endl;
 }
 
 
 int main() {
-    SDL_Window* window = SDL_CreateWindow("test", 0, 0, 900, 600, SDL_WINDOW_RESIZABLE);
+    SDL_Window* window = SDL_CreateWindow("test", 0, 0, 1000, 800, SDL_WINDOW_RESIZABLE);
     SDL_Renderer* renderer;
     if (window != 0) {
         std::cout << "window creation success\n";
@@ -242,6 +246,7 @@ int main() {
         std::cout << "window init fail\n";
         return 1; // window init fail
     }
+
     TextureHandler th; 
     int state = CONFIG;
     InputHandler ih(state);

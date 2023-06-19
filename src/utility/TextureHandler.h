@@ -111,8 +111,8 @@ public:
 private:
     std::map<std::string, SDL_Texture*> textures_inventory;
     float zoom_factor = 1.0f;
-    int x_shift = -450;
-    int y_shift = 300;
+    int x_shift = -500;
+    int y_shift = 400;
     Uint32 previous_zoom_time = 0;
     Uint32 curr;
     
