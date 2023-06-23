@@ -51,6 +51,7 @@ public:
     bool is_running = false;
     Uint32& curr_time;
     Uint32& prev_time;
+    int root_width = 1200;
 };
 
 void update(Utilities* util) {
@@ -75,19 +76,19 @@ void update(Utilities* util) {
             int j = (util->curr_time - util->prev_time) / 5;
             util->prev_time = util->curr_time;
             for (int i = 0; i < j; ++i) {
-                ForceComputer force_computer(masses);
+                ForceComputer force_computer(masses, util->root_width);
                 for (int i = 0; i < masses.size(); ++i) {
+                    if (masses[i]->getPos().getX() > util->root_width) {
+                        util->root_width = masses[i]->getPos().getX() + 100;
+                    }
+                    if (masses[i]->getPos().getY() > util->root_width) {
+                        util->root_width = masses[i]->getPos().getY() + 100;
+                    }
                     masses[i]->leapFrog1(5);
                 }
                 force_computer.updateWithBarnesHut();
                 for (int i = 0; i < masses.size(); ++i) {
                     masses[i]->leapFrog2(5);
-                    if (masses[i]->getPos().getX() > force_computer.root_width) {
-                        force_computer.root_width = masses[i]->getPos().getX() * 2;
-                    }
-                    if (masses[i]->getPos().getY() > force_computer.root_width) {
-                        force_computer.root_width = masses[i]->getPos().getY() * 2;
-                    }
                 }
             }
 

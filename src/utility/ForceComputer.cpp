@@ -31,7 +31,7 @@ void ForceComputer::update() {
 void ForceComputer::updateWithBarnesHut() {
     quad_tree = new Quadrant(root_width, 0, 0, 0, 0, 0);
     for (int i = 0; i < masses.size(); ++i) {
-        quad_tree->insert_mass(masses[i], 0);
+        quad_tree->iterativeQuadInsert(masses[i]);
     }   
     for (int i = 0; i < masses.size(); ++i) {
         Vector2D net_force(0, 0);
