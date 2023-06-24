@@ -202,7 +202,7 @@ bool loadAllTextures(Utilities* util) {
     if (!util->texture_handler->load("resources/textures/mass_count_10.png", "mass_count_10", util->renderer)) {
         return false;
     }     
-    if (!util->texture_handler->load("resources/textures/weight_normal.png", "weight_normal", util->renderer)) {
+    if (!util->texture_handler->load("resources/textures/weight_default.png", "weight_default", util->renderer)) {
         return false;
     }      
     if (!util->texture_handler->load("resources/textures/weight_light.png", "weight_light", util->renderer)) {
@@ -225,6 +225,28 @@ void mainloop (void *arg) {
     handleEvents(util);
     update(util);
     render(util);
+}
+
+void cleanAll(Utilities* util) {
+    util->mass_configurer->clear_current_config();
+    delete util->input_handler;
+    delete util->texture_handler;
+    delete util->mass_configurer;
+    std::vector<Object*>& config_buttons = util->config_buttons;
+    std::vector<Object*>& run_buttons = util->run_buttons;
+    std::vector<Object*>& pause_buttons = util->pause_buttons;
+    for (int i = 0; i < config_buttons.size(); ++i) {
+        delete config_buttons[i];
+        config_buttons[i] = nullptr;
+    }
+    for (int i = 0; i < run_buttons.size(); ++i) {
+        delete run_buttons[i];
+        config_buttons[i] = nullptr;
+    }
+    for (int i = 0; i < pause_buttons.size(); ++i) {
+        delete pause_buttons[i];
+        config_buttons[i] = nullptr;
+    }
 }
 
 
@@ -277,7 +299,7 @@ int main() {
     spawn_particles_button->addDropDown(new MassPlaceDropDown(230, 85, 60, 35, "mass_count_1", 1, mass_placer->num_particles, mass_placer));
     spawn_particles_button->addDropDown(new MassPlaceDropDown(310, 85, 60, 35, "mass_count_10", 10, mass_placer->num_particles, mass_placer));
     spawn_particles_button->addDropDown(new MassPlaceDropDown(201, 155, 66, 35, "weight_light", 0.3, mass_placer->mass, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(267, 155, 66, 35, "weight_normal", 1, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(267, 155, 66, 35, "weight_default", 1, mass_placer->mass, mass_placer));
     spawn_particles_button->addDropDown(new MassPlaceDropDown(333, 155, 66, 35, "weight_heavy", 10, mass_placer->mass, mass_placer));
     spawn_particles_button->addDropDown(new PlaceParticles(200, 195, 200, 35, "place_particles", mass_placer));
     config_buttons.push_back(spawn_particles_button); 
@@ -297,5 +319,7 @@ int main() {
 
     // following error is harmless
     emscripten_set_main_loop_arg(mainloop, &util, -1, 1);
+
+
 
 }
