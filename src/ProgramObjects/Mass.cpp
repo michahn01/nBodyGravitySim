@@ -5,7 +5,7 @@ void Mass::draw() {
 }
 void Mass::update(int dT) {
     vel += acc * dT/2.0;
-    pos += vel * dT;
+    pos += vel * (dT*1.0);
 }
 void Mass::clean() {
 }
@@ -22,7 +22,7 @@ void Mass::set_utilities(SDL_Renderer* r, TextureHandler* t, InputHandler* i) {
 
 void Mass::leapFrog1(int dT) {
     vel += acc*dT/2.0;
-    pos += vel*dT;
+    pos += vel*(dT*1.0);
 }
 
 void Mass::leapFrog2(int dT) {

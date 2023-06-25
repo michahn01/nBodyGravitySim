@@ -29,7 +29,7 @@ void ForceComputer::update() {
 }
 
 void ForceComputer::updateWithBarnesHut() {
-    quad_tree = new Quadrant(root_width, 0, 0, 0, 0, 0);
+    Quadrant* quad_tree = new Quadrant(root_width, 0, 0, 0, 0, 0);
     for (int i = 0; i < masses.size(); ++i) {
         quad_tree->iterativeQuadInsert(masses[i]);
     }   
@@ -38,7 +38,8 @@ void ForceComputer::updateWithBarnesHut() {
         quad_tree->addForceToBody(masses[i], net_force);   
         net_force /= masses[i]->getMass();
         masses[i]->getAccRef() = net_force;   
+        // std::cout << net_force.getX() << " " << net_force.getY() << std::endl;
     }
     cleanAllNodes(quad_tree);
-
+    delete quad_tree;
 }

@@ -155,17 +155,18 @@ public:
     void addForceToBody(Mass* body, Vector2D& net_force) {
         int x = 0;
         for (int i = 0; i < mass.size(); ++i) {
+            x++;
             if (mass[i] == body) continue;
             float dX = mass[i]->getPos().getX() - body->getPos().getX();
             float dY = mass[i]->getPos().getY() - body->getPos().getY();
             float temp = (body->getMass() * mass[i]->getMass()) / pow(std::max(pow(dX, 2) + pow(dY, 2), 20.0), 1.5);
             net_force += Vector2D(temp * dX, temp * dY);
-            x++;
         }
+        if (x > 0) return;
         float dX = center_of_mass_x - body->getPos().getX();
         float dY = center_of_mass_y - body->getPos().getY();
         float dist_sq = pow(dX, 2) + pow(dY, 2);
-        if ((1.0f * width) / sqrt(dist_sq) < threshold) {
+        if (width / sqrt(dist_sq) < threshold) {
             float temp = (body->getMass() * total_mass) / pow(std::max(dist_sq, 20.0f), 1.5);
             net_force += Vector2D(temp * dX, temp * dY);
             return;
@@ -189,7 +190,6 @@ public:
 
 private:
     std::vector<Mass*>& masses;
-    Quadrant* quad_tree = nullptr;
     void cleanAllNodes(Quadrant* node) {
         if (node == nullptr) {
             return;
