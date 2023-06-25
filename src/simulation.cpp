@@ -326,7 +326,7 @@ int main() {
     pause_buttons.push_back(new StateChanger(0, 0, 100, 50, "resume_button", 1));
 
 
-    // following error is harmless
+    emscripten_set_window_title("Gravity Simulation");
     emscripten_set_main_loop_arg(mainloop, &util, -1, 1);
 
 
