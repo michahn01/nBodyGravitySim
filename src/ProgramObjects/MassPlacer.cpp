@@ -22,7 +22,7 @@ void MassPlacer::update() {
             return;
     }
     if (example_configs_button_dropped &&
-        x > 0 && x < 200 && y > 0 && y < 120) return;
+        x > 0 && x < 200 && y > 0 && y < 190) return;
     if (spawn_particle_button_dropped &&    
         x > 200 && x < 400 && y > 0 && y < 220) return;
     for (int i = 0; i < placement_masses.size(); ++i) {

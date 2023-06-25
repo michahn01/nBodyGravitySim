@@ -51,7 +51,6 @@ public:
     bool is_running = false;
     Uint32& curr_time;
     Uint32& prev_time;
-    int root_width = 1200;
 };
 
 void update(Utilities* util) {
@@ -75,14 +74,15 @@ void update(Utilities* util) {
             util->curr_time = SDL_GetTicks();
             int j = (util->curr_time - util->prev_time) / 5;
             util->prev_time = util->curr_time;
+            int root_width = 1200;
             for (int i = 0; i < j; ++i) {
-                ForceComputer force_computer(masses, util->root_width);
+                ForceComputer force_computer(masses, root_width);
                 for (int i = 0; i < masses.size(); ++i) {
-                    if (masses[i]->getPos().getX() > util->root_width) {
-                        util->root_width = masses[i]->getPos().getX() + 100;
+                    if (masses[i]->getPos().getX() > root_width) {
+                        root_width = masses[i]->getPos().getX() + 100;
                     }
-                    if (masses[i]->getPos().getY() > util->root_width) {
-                        util->root_width = masses[i]->getPos().getY() + 100;
+                    if (masses[i]->getPos().getY() > root_width) {
+                        root_width = masses[i]->getPos().getY() + 100;
                     }
                     masses[i]->leapFrog1(5);
                 }
@@ -216,6 +216,12 @@ bool loadAllTextures(Utilities* util) {
     }    
     if (!util->texture_handler->load("resources/textures/green_mass.png", "green_mass", util->renderer)) {
         return false;
+    }  
+    if (!util->texture_handler->load("resources/textures/binary_star_system.png", "binary_star_system", util->renderer)) {
+        return false;
+    }      
+    if (!util->texture_handler->load("resources/textures/star_system.png", "star_system", util->renderer)) {
+        return false;
     }      
     return true;
 }
@@ -307,8 +313,11 @@ int main() {
     pause_buttons.push_back(spawn_particles_button);
 
     DropDownButton* example_configs_button = new DropDownButton(0, 0, 200, 50, "example_configs_buttons", mass_placer->example_configs_button_dropped);
-    example_configs_button->addConfigDropDown(new DropDown(0, 50, 200, 35, "euler_3_body"), "resources/mass_configurations/euler_3_body.csv");
-    example_configs_button->addConfigDropDown(new DropDown(0, 85, 200, 35, "unstable_3_body"), "resources/mass_configurations/unstable_3_body.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 50, 200, 35, "star_system"), "resources/mass_configurations/star_system.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 85, 200, 35, "binary_star_system"), "resources/mass_configurations/binary_star_system.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 120, 200, 35, "unstable_3_body"), "resources/mass_configurations/unstable_3_body.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 155, 200, 35, "euler_3_body"), "resources/mass_configurations/euler_3_body.csv");
+
     config_buttons.push_back(example_configs_button);
 
     run_buttons.push_back(new StateChanger(0, 0, 100, 50, "pause_button", 2));

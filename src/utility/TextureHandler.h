@@ -90,8 +90,8 @@ public:
 
     void resetCamera() {
         zoom_factor = 1.0f;
-        x_shift = -450;
-        y_shift = 300;
+        x_shift = -500;
+        y_shift = 400;
     }
 
     float getAbsolutePosX(float camera_x) {

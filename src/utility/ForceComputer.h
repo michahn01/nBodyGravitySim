@@ -24,7 +24,7 @@ public:
     std::vector<Mass*> mass;
     float mass_x; float mass_y;
 
-    float threshold = 0.4f;
+    float threshold = 0.5f;
 
 
     Quadrant() {}
