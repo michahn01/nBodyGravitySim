@@ -302,11 +302,11 @@ int main() {
     DropDownButton* spawn_particles_button = 
     new DropDownButton(220, 0, 220, 50, "spawn_particles_buttons", mass_placer->spawn_particle_button_dropped);
     spawn_particles_button->addDropDown(new NoninteractiveDropDown(220, 50, 220, 140, "mass_placer_settings"));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(250, 85, 72, 35, "mass_count_1", 1, mass_placer->num_particles, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(330, 85, 72, 35, "mass_count_10", 10, mass_placer->num_particles, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(221, 155, 72, 35, "weight_light", 0.3, mass_placer->mass, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(294, 155, 72, 35, "weight_default", 1, mass_placer->mass, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(367, 155, 72, 35, "weight_heavy", 10, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(250, 84, 72, 35, "mass_count_1", 1, mass_placer->num_particles, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(330, 84, 72, 35, "mass_count_10", 10, mass_placer->num_particles, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(224, 154, 70, 35, "weight_light", 0.3, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(295, 154, 70, 35, "weight_default", 1, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(366, 154, 70, 35, "weight_heavy", 10, mass_placer->mass, mass_placer));
     spawn_particles_button->addDropDown(new PlaceParticles(220, 195, 220, 35, "place_particles", mass_placer));
     config_buttons.push_back(spawn_particles_button); 
     run_buttons.push_back(spawn_particles_button); 
