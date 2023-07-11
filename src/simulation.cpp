@@ -296,34 +296,34 @@ int main() {
     config_buttons.push_back(mass_placer); run_buttons.push_back(mass_placer); pause_buttons.push_back(mass_placer);
 
     if (!loadAllTextures(&util)) return 1;
-    config_buttons.push_back(new StateChanger(400, 0, 200, 50, "start_simulation_button", 1));
+    config_buttons.push_back(new StateChanger(440, 0, 220, 50, "start_simulation_button", 1));
 
 
     DropDownButton* spawn_particles_button = 
-    new DropDownButton(200, 0, 200, 50, "spawn_particles_buttons", mass_placer->spawn_particle_button_dropped);
-    spawn_particles_button->addDropDown(new NoninteractiveDropDown(200, 50, 200, 140, "mass_placer_settings"));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(230, 85, 60, 35, "mass_count_1", 1, mass_placer->num_particles, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(310, 85, 60, 35, "mass_count_10", 10, mass_placer->num_particles, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(201, 155, 66, 35, "weight_light", 0.3, mass_placer->mass, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(267, 155, 66, 35, "weight_default", 1, mass_placer->mass, mass_placer));
-    spawn_particles_button->addDropDown(new MassPlaceDropDown(333, 155, 66, 35, "weight_heavy", 10, mass_placer->mass, mass_placer));
-    spawn_particles_button->addDropDown(new PlaceParticles(200, 195, 200, 35, "place_particles", mass_placer));
+    new DropDownButton(220, 0, 220, 50, "spawn_particles_buttons", mass_placer->spawn_particle_button_dropped);
+    spawn_particles_button->addDropDown(new NoninteractiveDropDown(220, 50, 220, 140, "mass_placer_settings"));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(250, 85, 72, 35, "mass_count_1", 1, mass_placer->num_particles, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(330, 85, 72, 35, "mass_count_10", 10, mass_placer->num_particles, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(221, 155, 72, 35, "weight_light", 0.3, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(294, 155, 72, 35, "weight_default", 1, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new MassPlaceDropDown(367, 155, 72, 35, "weight_heavy", 10, mass_placer->mass, mass_placer));
+    spawn_particles_button->addDropDown(new PlaceParticles(220, 195, 220, 35, "place_particles", mass_placer));
     config_buttons.push_back(spawn_particles_button); 
     run_buttons.push_back(spawn_particles_button); 
     pause_buttons.push_back(spawn_particles_button);
 
-    DropDownButton* example_configs_button = new DropDownButton(0, 0, 200, 50, "example_configs_buttons", mass_placer->example_configs_button_dropped);
-    example_configs_button->addConfigDropDown(new DropDown(0, 50, 200, 35, "star_system"), "resources/mass_configurations/star_system.csv");
-    example_configs_button->addConfigDropDown(new DropDown(0, 85, 200, 35, "binary_star_system"), "resources/mass_configurations/binary_star_system.csv");
-    example_configs_button->addConfigDropDown(new DropDown(0, 120, 200, 35, "unstable_3_body"), "resources/mass_configurations/unstable_3_body.csv");
-    example_configs_button->addConfigDropDown(new DropDown(0, 155, 200, 35, "euler_3_body"), "resources/mass_configurations/euler_3_body.csv");
+    DropDownButton* example_configs_button = new DropDownButton(0, 0, 220, 50, "example_configs_buttons", mass_placer->example_configs_button_dropped);
+    example_configs_button->addConfigDropDown(new DropDown(0, 50, 220, 35, "star_system"), "resources/mass_configurations/star_system.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 85, 220, 35, "binary_star_system"), "resources/mass_configurations/binary_star_system.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 120, 220, 35, "unstable_3_body"), "resources/mass_configurations/unstable_3_body.csv");
+    example_configs_button->addConfigDropDown(new DropDown(0, 155, 220, 35, "euler_3_body"), "resources/mass_configurations/euler_3_body.csv");
 
     config_buttons.push_back(example_configs_button);
 
-    run_buttons.push_back(new StateChanger(0, 0, 100, 50, "pause_button", 2));
-    run_buttons.push_back(new StateChanger(100, 0, 100, 50, "reset_button", 0));
-    pause_buttons.push_back(new StateChanger(100, 0, 100, 50, "reset_button", 0));
-    pause_buttons.push_back(new StateChanger(0, 0, 100, 50, "resume_button", 1));
+    run_buttons.push_back(new StateChanger(0, 0, 110, 50, "pause_button", 2));
+    run_buttons.push_back(new StateChanger(110, 0, 110, 50, "reset_button", 0));
+    pause_buttons.push_back(new StateChanger(110, 0, 110, 50, "reset_button", 0));
+    pause_buttons.push_back(new StateChanger(0, 0, 110, 50, "resume_button", 1));
 
 
     emscripten_set_window_title("Gravity Simulation");
