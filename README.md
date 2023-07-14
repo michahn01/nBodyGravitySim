@@ -34,7 +34,7 @@ The simulation program provides a few example planet/star configurations you can
 
 ```BINARY STAR SYSTEM``` is a star system with two stars of equal mass orbiting each other.
 
-```UNSTABLE 3 BODY``` is more interesting. With three masses of equal mass, this system is highly
+```UNSTABLE 3 BODY``` is more interesting. With three bodies of equal mass, this system is highly
 chaotic and also extremely sensitive -- using double vs floating point precision in simulation computations leads to hugely different results. Most configurations with three bodies are similarly chaotic and sensitive, and in most three-body systems the masses fling themselves out of orbit in the end and part ways (perhaps why similarly chaotic star systems are so rare in nature). This is a case illustrating the difficulties of the infamous [three-body-problem](https://en.wikipedia.org/wiki/Three-body_problem), which seeks to 
 solve for the motion of a three-body system given each body's initial position and velocity. Unlike the two-body-problem, no closed-form
 solution exists to this day for the three-body-problem. 
