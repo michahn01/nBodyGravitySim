@@ -17,8 +17,9 @@ First, press the ```SPAWN PARTICLES``` drop-down button:
 
 ![image](https://github.com/michahn01/nBodyGravitySim/assets/113268235/5932de72-ac9f-4710-8a91-661d339f4acb)
 
-Select the number of particles you want to spawn at once, and select the desired weight for your particle(s). 
+Select the number of particles you want to spawn at once, and select the desired mass for your particle(s). 
 
+![image](https://github.com/michahn01/nBodyGravitySim/assets/113268235/71c5d000-079a-43ec-85b7-b16244d4da7d)
 
 
 Then, press ```PLACE PARTICLE(s)``` to place particles with the selected settings.
