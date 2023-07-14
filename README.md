@@ -30,9 +30,9 @@ The simulation program provides a few example planet/star configurations you can
 
 ![image](https://github.com/michahn01/nBodyGravitySim/assets/113268235/9dc9bc53-a7ff-47c9-9d00-0334e97a5b9d)
 
-```STAR SYSTEM``` is a generic star system with one star and two planets. The planets orbit the star in such a way that the system has a fixed center of mass, which keeps the entire system in one place.
+```STAR SYSTEM``` is a generic star system with one star and two planets that orbit it.
 
-```BINARY STAR SYSTEM``` is just that, a star system with two stars of equal mass orbiting each other.
+```BINARY STAR SYSTEM``` is a star system with two stars of equal mass orbiting each other.
 
 ```UNSTABLE 3 BODY``` is more interesting. With three masses of equal mass, this system is highly
 chaotic and also extremely sensitive -- using double vs floating point precision in simulation computations leads to hugely different results. Most configurations with three bodies are similarly chaotic and sensitive, and in most three-body systems the masses fling themselves out of orbit in the end and part ways (perhaps why similarly chaotic star systems are so rare in nature). This is a case illustrating the difficulties of the infamous [three-body-problem](https://en.wikipedia.org/wiki/Three-body_problem), which seeks to 
