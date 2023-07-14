@@ -24,6 +24,7 @@ public:
         double v_x; double v_y;
         double a_x; double a_y;
         std::string texture_ID;
+        texture_handler->resetCamera();
         while (in.read_row(mass, w, h, p_x, p_y, v_x, v_y, a_x, a_y, texture_ID)) {
             // std::cout << mass << " " << w << " " << h << " " << p_x << " " << p_y << " " << v_x << " " << v_y << " " << a_x << " " << a_y << " " << texture_ID << std::endl;
             masses.push_back(new Mass(mass, w, h, p_x, p_y, v_x, v_y, a_x, a_y, texture_ID)); 
