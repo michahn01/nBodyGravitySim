@@ -257,7 +257,7 @@ void cleanAll(Utilities* util) {
 
 
 int main() {
-    SDL_Window* window = SDL_CreateWindow("test", 0, 0, 1000, 800, SDL_WINDOW_RESIZABLE);
+    SDL_Window* window = SDL_CreateWindow("test", 0, 0, 10, 10, SDL_WINDOW_RESIZABLE);
     SDL_Renderer* renderer;
     if (window != 0) {
         std::cout << "window creation success\n";
@@ -276,7 +276,7 @@ int main() {
         return 1; // window init fail
     }
 
-    TextureHandler th; 
+    TextureHandler th; th.set_window(window);
     int state = CONFIG;
     InputHandler ih(state);
     std::vector<Object*> config_buttons;

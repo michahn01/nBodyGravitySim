@@ -90,8 +90,10 @@ public:
 
     void resetCamera() {
         zoom_factor = 1.0f;
-        x_shift = -500;
-        y_shift = 400;
+        int width; int height;
+        SDL_GetWindowSize(window, &width, &height);
+        x_shift = -1 * width / 2;
+        y_shift = height / 2;
     }
 
     float getAbsolutePosX(float camera_x) {
@@ -106,16 +108,20 @@ public:
     float getCameraPosY(float absolute_y) {
         return absolute_y * zoom_factor + y_shift;
     }
+    void set_window(SDL_Window* w) {
+        window = w;
+        resetCamera();
+    }
 
 
 private:
     std::map<std::string, SDL_Texture*> textures_inventory;
     float zoom_factor = 1.0f;
-    int x_shift = -500;
-    int y_shift = 400;
+    int x_shift;
+    int y_shift;
     Uint32 previous_zoom_time = 0;
     Uint32 curr;
-    
+    SDL_Window* window;
 
 };
 
